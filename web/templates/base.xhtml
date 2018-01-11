@@ -16,7 +16,21 @@
         <div class="container">
 
             <div id="cabecera" class="span-24 last">
-                CABECERA
+                <div class="span-3">
+                    <div id="cabecera_logo"> <h:graphicImage library="images" name="logo.jpg" /> </div>
+                </div>
+
+                <div class="span-15">
+                    <div id="cabecera_titulo">
+                        <h1><h:outputText value="Sistema Control de Accesos" /></h1>
+                    </div>
+                </div>
+
+                <div class="span-6 last">
+                    <div id="cabecera_menu">
+                        <ul id="cabecera_menu_items"> <ui:include src="menu_cabecera.xhtml" /> </ul>
+                    </div>
+                </div>
             </div>
 
             <div id="centro" class="span-24 last">
@@ -37,7 +51,13 @@
             </div>
 
             <div id="pie" class="span-24 last">
-                PIE
+                <div class="span-17">
+                    <div id="pie_texto"> <h:outputText value="#{homeController.infoDelPie()}"/> </div>
+                </div>
+
+                <div class="span-7 last">
+                    <div id="pie_logo"> <h:graphicImage library="images" name="logojava2.png" /> </div>
+                </div>
             </div>
 
         </div>

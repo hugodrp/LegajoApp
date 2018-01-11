@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package legajoSIS.models;
 
 import java.io.Serializable;
@@ -20,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -39,38 +35,50 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Usuario.findByClave", query = "SELECT u FROM Usuario u WHERE u.clave = :clave")
     , @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")
     , @NamedQuery(name = "Usuario.findByCreated", query = "SELECT u FROM Usuario u WHERE u.created = :created")
-    , @NamedQuery(name = "Usuario.findByUpdated", query = "SELECT u FROM Usuario u WHERE u.updated = :updated")})
+    , @NamedQuery(name = "Usuario.findByUpdated", query = "SELECT u FROM Usuario u WHERE u.updated = :updated")
+    , @NamedQuery(name = "Usuuario.findByTipoUsuarioId", query = "SELECT u FROM Usuario u WHERE u.tipousuarioId = :tipousuarioId")
+    , @NamedQuery(name = "Usuuario.findLogin", query = "SELECT u FROM Usuario u WHERE u.login = :login AND u.clave = :clave")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 100)
+
+    @Size(min = 1, max = 100, message = "Debe ingresar el Login")
     @Column(name = "login")
     private String login;
-    @Size(max = 100)
+
+    @Size(min = 1, max = 100, message = "Debe ingresar el Nombre")
     @Column(name = "nombre")
     private String nombre;
-    @Size(max = 100)
+
+    @Size(min = 1, max = 100, message = "Debe ingresar la Clave")
     @Column(name = "clave")
     private String clave;
-    @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Correo electrónico no válido")//if the field contains email address consider using this annotation to enforce field validation
+
+    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Correo electrónico no válido")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 100)
     @Column(name = "email")
     private String email;
+
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+
+    @NotNull(message = "Debe seleccionar un tipo de Usuario")
     @JoinColumn(name = "tipousuario_id", referencedColumnName = "id")
     @ManyToOne
     private Tipousuario tipousuarioId;
 
+    // -------------------------- Contructores de la Clase --------------------------
     public Usuario() {
     }
 
@@ -78,6 +86,7 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
+    // -------------------------- Getters y Setters --------------------------
     public Integer getId() {
         return id;
     }
@@ -142,6 +151,7 @@ public class Usuario implements Serializable {
         this.tipousuarioId = tipousuarioId;
     }
 
+    // -------------------------- Métodos de la Clase --------------------------
     @Override
     public int hashCode() {
         int hash = 0;
@@ -165,7 +175,7 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         /*return "legajoSIS.models.Usuario[ id=" + id + " ]";*/
-        return nombre;
+        return nombre + "(" + id + ")";
     }
-    
+
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package legajoSIS.models;
 
 import java.io.Serializable;
@@ -40,13 +35,14 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Tipousuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
 
-    @Size(max = 100)
+    @Size(min = 1, max = 100, message = "Debe ingresar el Nombre")
     @Column(name = "nombre")
     private String nombre;
 
@@ -60,10 +56,11 @@ public class Tipousuario implements Serializable {
 
     @OneToMany(mappedBy = "tipousuarioId")
     private List<MenuTipousuario> menuTipousuarioList;
-    
+
     @OneToMany(mappedBy = "tipousuarioId")
     private List<Usuario> usuarioList;
 
+    // -------------------------- Contructores de la Clase --------------------------
     public Tipousuario() {
     }
 
@@ -71,6 +68,7 @@ public class Tipousuario implements Serializable {
         this.id = id;
     }
 
+    // -------------------------- Getters y Setters --------------------------
     public Integer getId() {
         return id;
     }
@@ -103,6 +101,7 @@ public class Tipousuario implements Serializable {
         this.updated = updated;
     }
 
+    // -------------------------- Métodos de la Clase --------------------------
     @XmlTransient
     public List<MenuTipousuario> getMenuTipousuarioList() {
         return menuTipousuarioList;
@@ -144,7 +143,7 @@ public class Tipousuario implements Serializable {
     @Override
     public String toString() {
         /*return "legajoSIS.models.Tipousuario[ id=" + id + " ]";*/
-        return nombre;
+        return nombre + "(" + id + ")";
     }
 
 }

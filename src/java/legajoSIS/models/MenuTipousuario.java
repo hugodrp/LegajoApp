@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package legajoSIS.models;
 
 import java.io.Serializable;
@@ -20,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -33,28 +29,40 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MenuTipousuario.findAll", query = "SELECT m FROM MenuTipousuario m")
     , @NamedQuery(name = "MenuTipousuario.findById", query = "SELECT m FROM MenuTipousuario m WHERE m.id = :id")
     , @NamedQuery(name = "MenuTipousuario.findByCreated", query = "SELECT m FROM MenuTipousuario m WHERE m.created = :created")
-    , @NamedQuery(name = "MenuTipousuario.findByUpdated", query = "SELECT m FROM MenuTipousuario m WHERE m.updated = :updated")})
+    , @NamedQuery(name = "MenuTipousuario.findByUpdated", query = "SELECT m FROM MenuTipousuario m WHERE m.updated = :updated")
+    , @NamedQuery(name = "MenuTipousuario.findByMenuId", query = "SELECT m FROM MenuTipousuario m WHERE m.menuId = :menuId")
+    , @NamedQuery(name = "MenuTipousuario.findByTipousuarioId", query = "SELECT m FROM MenuTipousuario m WHERE m.tipousuarioId = :tipousuarioId")
+    , @NamedQuery(name = "MenuTipousuario.findTipousuarioByMenu", query = "SELECT m.tipousuarioId FROM MenuTipousuario m WHERE m.menuId = :menu")
+    , @NamedQuery(name = "MenuTipousuario.findByMenuAndTipousuario", query = "SELECT m FROM MenuTipousuario m WHERE m.menuId = :menu AND m.tipousuarioId = :tipo")})
 public class MenuTipousuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+
+    @NotNull(message = "Debe seleccionar un Menú")
     @JoinColumn(name = "menu_id", referencedColumnName = "id")
     @ManyToOne
     private Menu menuId;
+
+    @NotNull(message = "Debe seleccionar un Tipo de Usuario")
     @JoinColumn(name = "tipousuario_id", referencedColumnName = "id")
     @ManyToOne
     private Tipousuario tipousuarioId;
 
+    // -------------------------- Contructores de la Clase --------------------------
     public MenuTipousuario() {
     }
 
@@ -62,6 +70,7 @@ public class MenuTipousuario implements Serializable {
         this.id = id;
     }
 
+    // -------------------------- Getters y Setters --------------------------
     public Integer getId() {
         return id;
     }
@@ -102,6 +111,7 @@ public class MenuTipousuario implements Serializable {
         this.tipousuarioId = tipousuarioId;
     }
 
+    // -------------------------- Métodos de la Clase --------------------------
     @Override
     public int hashCode() {
         int hash = 0;
@@ -124,7 +134,7 @@ public class MenuTipousuario implements Serializable {
 
     @Override
     public String toString() {
-        return "legajoSIS.models.MenuTipousuario[ id=" + id + " ]";
+        return tipousuarioId.getNombre() + " - " + menuId.getNombre();
     }
-    
+
 }

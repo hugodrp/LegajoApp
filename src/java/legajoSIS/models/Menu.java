@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package legajoSIS.models;
 
 import java.io.Serializable;
@@ -20,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -41,40 +37,54 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Menu.findByRaiz", query = "SELECT m FROM Menu m WHERE m.raiz = :raiz")
     , @NamedQuery(name = "Menu.findByOrden", query = "SELECT m FROM Menu m WHERE m.orden = :orden")
     , @NamedQuery(name = "Menu.findByCreated", query = "SELECT m FROM Menu m WHERE m.created = :created")
-    , @NamedQuery(name = "Menu.findByUpdated", query = "SELECT m FROM Menu m WHERE m.updated = :updated")})
+    , @NamedQuery(name = "Menu.findByUpdated", query = "SELECT m FROM Menu m WHERE m.updated = :updated")
+    , @NamedQuery(name = "Menu.findAllOrderMenu", query = "SELECT m FROM Menu m ORDER BY m.raiz, m.orden")})
 public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 100)
+
+    @Size(min = 1, max = 100, message = "Debe ingresar el Nombre")
     @Column(name = "nombre")
     private String nombre;
+
     @Size(max = 100)
     @Column(name = "imagen")
     private String imagen;
+
     @Size(max = 100)
     @Column(name = "url")
     private String url;
+
     @Size(max = 100)
     @Column(name = "accion")
     private String accion;
+
     @Column(name = "raiz")
+    @NotNull(message = "Debe ingresar Raíz")
     private Integer raiz;
+
     @Column(name = "orden")
+    @NotNull(message = "Debe ingresar Orden")
     private Integer orden;
+
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+
     @Column(name = "updated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
+
     @OneToMany(mappedBy = "menuId")
     private List<MenuTipousuario> menuTipousuarioList;
 
+    // -------------------------- Contructores de la Clase --------------------------
     public Menu() {
     }
 
@@ -82,6 +92,7 @@ public class Menu implements Serializable {
         this.id = id;
     }
 
+    // -------------------------- Getters y Setters --------------------------
     public Integer getId() {
         return id;
     }
@@ -154,6 +165,7 @@ public class Menu implements Serializable {
         this.updated = updated;
     }
 
+    // -------------------------- Métodos de la Clase --------------------------
     @XmlTransient
     public List<MenuTipousuario> getMenuTipousuarioList() {
         return menuTipousuarioList;
@@ -185,7 +197,7 @@ public class Menu implements Serializable {
 
     @Override
     public String toString() {
-        return "legajoSIS.models.Menu[ id=" + id + " ]";
+        return nombre + "(" + id + ")";
     }
-    
+
 }

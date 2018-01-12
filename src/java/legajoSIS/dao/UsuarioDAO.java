@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package legajoSIS.dao;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import legajoSIS.models.Usuario;
 
 /**
@@ -29,4 +25,14 @@ public class UsuarioDAO extends AbstractDAO<Usuario> {
         super(Usuario.class);
     }
     
+    public Usuario getLogin(String login, String clave) {
+        try {
+            Query query = em.createNamedQuery("Usuuario.findLogin");
+            query.setParameter("login", login);
+            query.setParameter("clave", clave);
+            return (Usuario)query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }    
 }

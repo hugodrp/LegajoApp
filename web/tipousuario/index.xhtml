@@ -29,14 +29,14 @@
                     <h:column>
                         <f:facet name="header"> <h:outputText value="Creado"/> </f:facet>
                         <h:outputText value="#{item.created}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-4"/>
                         </h:outputText>
                     </h:column>
 
                     <h:column>
                         <f:facet name="header"> <h:outputText value="Modificado"/> </f:facet>
                         <h:outputText value="#{item.updated}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-4"/>
                         </h:outputText>
                     </h:column>
 

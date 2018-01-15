@@ -3,29 +3,28 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                template="./../templates/base.xhtml">
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h2><h:outputText value="Tipo de Usuario"/></h2>
 
     <h4> <h:messages globalOnly="false" style="color: red" /> </h4>
 
-    <p>
-        <h:outputLabel value="ID        :" for="id" />
-        <h:inputText id="id" value="#{tipousuarioController.selected.id}" title="Id" disabled="true" />
+    <pre>
+        <h:outputLabel value="ID        : " for="id" />
+        <h:inputText id="id" value="#{tipousuarioController.selected.id}" title="Id" disabled="true" /><br></br>
 
-        <h:outputLabel value="Nombre    :" for="nombre" />
-        <h:inputText id="nombre" value="#{tipousuarioController.selected.nombre}" />
+        <h:outputLabel value="Nombre    : " for="nombre" />
+        <h:inputText id="nombre" value="#{tipousuarioController.selected.nombre}" /><br></br>
 
-        <h:outputLabel value="Createdo  :" for="created" />
+        <h:outputLabel value="Createdo  : " for="created" />
         <h:inputText id="created" value="#{tipousuarioController.selected.created}" title="Creado" disabled="true" >
-            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-        </h:inputText>
+            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-4"/>
+        </h:inputText><br></br>
 
-        <h:outputLabel value="Modificado:" for="updated" />
+        <h:outputLabel value="Modificado: " for="updated" />
         <h:inputText id="updated" value="#{tipousuarioController.selected.updated}" title="Actualizado" disabled="true" >
-            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
-        </h:inputText>
-    </p>
+            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-4"/>
+        </h:inputText><br></br>
+    </pre>
 
 </ui:composition>

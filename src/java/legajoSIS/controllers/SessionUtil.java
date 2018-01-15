@@ -26,8 +26,13 @@ public class SessionUtil {
 
     // Se cierra la sesion.
     public static void closeSession() {
+        // Modifiqué con la ayuda de Vicente para que funcione
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-        ((HttpSession) ctx.getSession(false)).invalidate();
+        //((HttpSession) ctx.getSession(false)).invalidate();
+        HttpSession session = (HttpSession) ctx.getSession(false);
+        session.invalidate();
+        // Se debe agregar la siguiente línea porque sino da un error de Java Null Pointer
+        session = (HttpSession) ctx.getSession(true);
     }
 
     // Recupera el código del usuario logueado.

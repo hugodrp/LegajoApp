@@ -24,14 +24,15 @@ public class UsuarioDAO extends AbstractDAO<Usuario> {
     public UsuarioDAO() {
         super(Usuario.class);
     }
-    
+
     public Usuario getLogin(String login, String clave) {
         try {
             Query query = em.createNamedQuery("Usuario.findLogin");
             query.setParameter("login", login);
             query.setParameter("clave", clave);
-            return (Usuario)query.getSingleResult();
+            return (Usuario) query.getSingleResult();
+        } catch (Exception e) {
+            return null;
         }
-        catch (Exception e) { return null; }
     }
 }

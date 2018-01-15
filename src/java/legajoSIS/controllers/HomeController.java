@@ -7,7 +7,12 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.validation.constraints.Size;
+import legajoSIS.dao.MenuDAO;
+import legajoSIS.dao.MenuTipousuarioDAO;
+import legajoSIS.dao.TipousuarioDAO;
 import legajoSIS.dao.UsuarioDAO;
+import legajoSIS.models.Menu;
+import legajoSIS.models.Tipousuario;
 import legajoSIS.models.Usuario;
 
 /**
@@ -20,6 +25,12 @@ public class HomeController implements Serializable {
 
     @EJB
     private UsuarioDAO dao;
+    @EJB
+    private MenuDAO daoMenu;
+    @EJB
+    private TipousuarioDAO daoTU;
+    @EJB
+    private MenuTipousuarioDAO daoMTU;
 
     @Size(min = 1, message = "Debe ingresar un usuario")
     private String usuario;
@@ -142,6 +153,52 @@ public class HomeController implements Serializable {
         current.setClave(claveNew);
         dao.edit(current);
         return "/index";
+    }
+
+    public String irA(String accion) {
+        return accion;
+    }
+
+    public void accesoURL(Boolean ctrl, String pagina) {
+        if (!tieneAcceso(ctrl, pagina)) {
+            SessionUtil.redirectTo("/faces/home/acceso_denegado.xhtml");
+        }
+    }
+
+    // Determina si la pagina para el tipo de usuario puede ser accedida.
+    public boolean tieneAcceso(Boolean ctrl, String pagina) {
+
+        if (!ctrl) {
+            return true;
+        } // Si el indicador dice que no hay que controlar, tiene acceso.
+
+        // Si el usuario no ingreso, no hay acceso.
+        Integer userLog = SessionUtil.getUserLog();
+        if (userLog == null) {
+            return false;
+        }
+
+        // El usuario ingreso, si la página está en blanco, hay acceso.
+        // Página en blanco indica que solo se requiere está logueado).
+        if (pagina.equals("")) {
+            return true;
+        }
+
+        // Si la opción de menú no existe, no hay acceso.
+        Menu menu = daoMenu.findByAction(pagina);
+        if (menu == null) {
+            return false;
+        }
+
+        // No debería pasar, pero si el tipo no existe, no hay acceso.
+        Tipousuario tipo = daoTU.find(SessionUtil.getIdUserTipoLog());
+        if (tipo == null) {
+            return false;
+        }
+
+        // Se controla acceso por menu (se busca en la tabla de accesos el tipo usuario y la página).
+        return daoMTU.findByMenuAndTipousuario(menu, tipo);
+
     }
 
     // Funcion que determina si hay un usuario logueado.

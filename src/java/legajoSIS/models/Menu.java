@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Menu.findByOrden", query = "SELECT m FROM Menu m WHERE m.orden = :orden")
     , @NamedQuery(name = "Menu.findByCreated", query = "SELECT m FROM Menu m WHERE m.created = :created")
     , @NamedQuery(name = "Menu.findByUpdated", query = "SELECT m FROM Menu m WHERE m.updated = :updated")
-    , @NamedQuery(name = "Menu.findAllOrderMenu", query = "SELECT m FROM Menu m order by m.raiz , m.orden")})
+    , @NamedQuery(name = "Menu.findAllOrderMenu", query = "SELECT m FROM Menu m ORDER BY m.raiz , m.orden")})
 public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;

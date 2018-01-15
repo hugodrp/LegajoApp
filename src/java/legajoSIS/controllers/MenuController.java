@@ -43,7 +43,7 @@ public class MenuController implements Serializable {
     }
 
     public List<Menu> listado() {
-        return dao.findAll();
+        return dao.findAllOrderMenu();
     }
 
     public String create() {

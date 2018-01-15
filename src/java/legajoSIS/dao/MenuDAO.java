@@ -1,8 +1,10 @@
 package legajoSIS.dao;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import legajoSIS.models.Menu;
 
 /**
@@ -23,5 +25,23 @@ public class MenuDAO extends AbstractDAO<Menu> {
     public MenuDAO() {
         super(Menu.class);
     }
-    
+
+    public List<Menu> findAllOrderMenu() {
+        try {
+            Query query = em.createNamedQuery("Menu.findAllOrderMenu");
+            return (List<Menu>) query.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Menu findByAction(String accion) {
+        try {
+            Query query = em.createNamedQuery("Menu.findByAccion");
+            query.setParameter("accion", accion);
+            return (Menu) query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

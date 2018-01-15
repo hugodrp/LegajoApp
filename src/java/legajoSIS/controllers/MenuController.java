@@ -11,44 +11,44 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.model.SelectItem;
-import legajoSIS.dao.TipousuarioDAO;
-import legajoSIS.models.Tipousuario;
+import legajoSIS.dao.MenuDAO;
+import legajoSIS.models.Menu;
 
 /**
  *
  * @author usuario
  */
-@Named(value = "tipousuarioController")
+@Named(value = "menuController")
 @SessionScoped
-public class TipousuarioController implements Serializable {
+public class MenuController implements Serializable {
 
     @EJB
-    private TipousuarioDAO dao;
-    private Tipousuario selected;
+    private MenuDAO dao;
+    private Menu selected;
 
-    // ---------------------- Constructor de la Clase ----------------------s
-    public TipousuarioController() {
+    // ---------------------- Constructor de la Clase ----------------------
+    public MenuController() {
     }
 
-    public Tipousuario getSelected() {
+    public Menu getSelected() {
         if (selected == null) {
-            selected = new Tipousuario();
+            selected = new Menu();
         }
         return selected;
     }
 
     // ---------------------- Métodos del Managed Bean ----------------------
     public String index() {
-        return "/tipousuario/index";
+        return "/menu/index";
     }
 
-    public List<Tipousuario> listado() {
+    public List<Menu> listado() {
         return dao.findAll();
     }
 
     public String create() {
-        selected = new Tipousuario();
-        return "/tipousuario/new";
+        selected = new Menu();
+        return "/menu/new";
     }
 
     public String agregar() {
@@ -56,19 +56,19 @@ public class TipousuarioController implements Serializable {
         selected.setCreated(d);
         selected.setUpdated(d);
         dao.create(selected);
-        return "/tipousuario/index";
+        return "/menu/index";
     }
 
     public String edit(int codigo) {
         selected = dao.find(codigo);
-        return "/tipousuario/edit";
+        return "/menu/edit";
     }
 
     public String guardar() {
         Date d = new Date();
         selected.setUpdated(d);
         dao.edit(selected);
-        return "/tipousuario/index";
+        return "/menu/index";
     }
 
     public String eliminar(int codigo) {
@@ -78,7 +78,7 @@ public class TipousuarioController implements Serializable {
         } catch (Exception e) {
             SessionUtil.addErrorMessage("No se puede eliminar, posibles datos asociados");
         }
-        return "/tipousuario/index";
+        return "/menu/index";
     }
 
     // --------------------- Métodos de Ayuda para acceder al Bean por otras Clases ---------------------
@@ -104,44 +104,43 @@ public class TipousuarioController implements Serializable {
     }
 
     // ------------------ Clase para conversiones, se deben implementar todos los métodos ------------------
-    @FacesConverter(forClass = Tipousuario.class)
-    public static class TipousuarioControllerConverter implements Converter {
+    @FacesConverter(forClass = Menu.class)
+    public static class MenuControllerConverter implements Converter {
 
         java.lang.Integer getKey(String value) {
             java.lang.Integer key;
             key = Integer.valueOf(value);
             return key;
-        } // Fin java.lang.Integer getKey
+        }
 
         String getStringKey(java.lang.Integer value) {
             StringBuffer sb = new StringBuffer();
             sb.append(value);
             return sb.toString();
-        } // Fin String getStringKey
+        }
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TipousuarioController controller = (TipousuarioController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tipousuarioController");
+            MenuController controller = (MenuController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "menuController");
             return controller.dao.find(getKey(value));
-        } // Fin public Object getAsObject
+        }
 
         @Override
         public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Tipousuario) {
-                Tipousuario o = (Tipousuario) object;
+            if (object instanceof Menu) {
+                Menu o = (Menu) object;
                 return getStringKey(o.getId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + TipousuarioController.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + MenuController.class.getName());
             }
-        } // Fin public String getAsString
+        }
 
-    } // Fin public static class TipousuarioControllerConverter implements Converter
-
+    }
 }

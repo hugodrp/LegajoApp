@@ -13,7 +13,8 @@ import legajoSIS.dao.TipousuarioDAO;
 import legajoSIS.dao.UsuarioDAO;
 import legajoSIS.models.Menu;
 import legajoSIS.models.Tipousuario;
-import legajoSIS.models.Usuario;
+import legajoSIS.models.Usuario; 
+
 
 /**
  *
